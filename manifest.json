@@ -1,13 +1,12 @@
 {
 	"name":"Co2 Monitor",
-	"version":"0.0.1",
-	"description":"Monitor how much Co2 your internet consumption has produced",
-    	"permissions": ["declarativeContent", "storage"],
+	"version":"0.0.2",
+	"description":"monitor how much Co2 your internet consumption has produced",
+    "permissions": ["browsingData",  "webNavigation", "webRequest", "storage", "history", "<all_urls>"],
 	"background":{
 		"scripts": ["background.js"],
 		"persistents": false
 	},
-	"options_page":"options.html",
 	"icons": {
 		"16": "images/get_started16.png",
 		"32": "images/get_started32.png",
