@@ -23,6 +23,28 @@ var COUNTRY = 300;
 var AREA = 1000;
 var COMPUTER_SCORE = 1;
 
+
+// Get location 
+
+
+function set_country_and_area(position) {
+	// set the value of COUNTRY and AREA
+	console.log("geolocation enable for co2 monitor", position)
+	// geocoder.geocode({'location': position}, function(results, status) {
+	// 	console.log("result & status", results, status)
+	// });
+	$.getJSON('http://ws.geonames.org/countryCode', {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            type: 'JSON'
+        }, function(result) {
+            console.log('Country: ' + result.countryName + '\n' + 'Code: ' + result.countryCode);
+    });
+}
+
+navigator.geolocation.getCurrentPosition(set_country_and_area);
+
+
 // Funtions
 
 function compute_co2_score(co2_request_score, country_score, area_score){
