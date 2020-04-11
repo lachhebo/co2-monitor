@@ -15,40 +15,30 @@ const WEBSITE_SCORES = {
 
 const MEAN_CO2_WEBSITE_SCORE = 1.5
 
+const details = {
+	'title': 'co2-monitor' 
+}
+
+const details_bis = {
+	'path': 'new_icons/favicon.ico'
+}
+
+var img = new Image(src = 'new_icons/favicon.ico');
+
+chrome.browserAction.setTitle(details)
+chrome.browserAction.setIcon(details_bis)
 
 // Global variables 
 
 var CO2_REQUEST_SCORE = 0; 
 var COUNTRY = 300;
 var AREA = 1000;
-var COMPUTER_SCORE = 1;
-
-
-// Get location 
-
-
-function set_country_and_area(position) {
-	// set the value of COUNTRY and AREA
-	console.log("geolocation enable for co2 monitor", position)
-	// geocoder.geocode({'location': position}, function(results, status) {
-	// 	console.log("result & status", results, status)
-	// });
-	$.getJSON('http://ws.geonames.org/countryCode', {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            type: 'JSON'
-        }, function(result) {
-            console.log('Country: ' + result.countryName + '\n' + 'Code: ' + result.countryCode);
-    });
-}
-
-navigator.geolocation.getCurrentPosition(set_country_and_area);
-
+//var COMPUTER_SCORE = 1;
 
 // Funtions
 
 function compute_co2_score(co2_request_score, country_score, area_score){
-	var co2_score = co2_request_score + country_score + area_score
+	var co2_score = co2_request_score * country_score * area_score
 	return co2_score
 }
 
@@ -72,6 +62,15 @@ var compute_co2_request_score = function(details) {
 	} 
 	
 	CO2_REQUEST_SCORE = CO2_REQUEST_SCORE + content_length * website_score // number of octet in base 10
+
+	co2_score = compute_co2_score(CO2_REQUEST_SCORE, COUNTRY, AREA)
+
+
+	result = {
+		text : (CO2_REQUEST_SCORE).toString()
+	}
+
+	chrome.browserAction.setBadgeText(result)
 };
 
 
