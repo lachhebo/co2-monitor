@@ -5,7 +5,6 @@
 	"permissions": [
 		"browsingData",  
 		"webNavigation",
-		"geolocation", 
 		"webRequest",
 		"storage",
 		"history",
@@ -20,14 +19,17 @@
 		"48": "images/co2_48.png",
 		"128": "images/co2_128.png"
 	},
-	"page_action": {
-		"default_popup": "popup.html",
-		"default_icon": {
-		"16": "images/co2_16.png",
-		"32": "images/co2_32.png",
-		"48": "images/co2_48.png",
-		"128": "images/co2_128.png"
-		}
+	"browser_action": {
+		"default_icon": {                    
+		  "16": "images/co2_16.png",           // optional
+		  "32": "images/co2_32.png"            // optional
+		},
+		"default_title": "Co2-monitor",      // optional; shown in tooltip
+		"default_popup": "popup.html"        // optional
 	},
+	"options_ui": {
+		"page": "options.html",
+		"open_in_tab": false
+	  },
 	"manifest_version":2
 }
