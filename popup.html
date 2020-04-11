@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      button {
-        height: 30px;
-        width: 30px;
-        outline: none;
-      }
-    </style>
+    <link rel="stylesheet" href="stylesheet.css" type="text/css">
   </head>
+  <script src="popup.js"></script>
   <body>
-    <button id="changeColor"></button>
+
+
+    <div>
+
+      <div class="logo_div">
+        <h1 class = "title_popup">Co2 Monitor</h1>
+      </div>
+
+      <div class="today_data">
+        <p>Co2 score : 7.9</p>
+        <p>Co2 emission rough estimation : 100kg </p>
+      </div>
+
+      <div class="yesterday_data">
+        <p>Co2 score : 4.4</p>
+        <p>Co2 emission rough estimation : 130kg </p>
+      </div>
+
+      <div class="options_div">
+        <p class = "label_options">Here are the options</p>
+        <button id="go-to-options">Go to options</button>
+      </div>
+
+  </div>
   </body>
 </html>

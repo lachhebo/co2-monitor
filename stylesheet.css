@@ -1,0 +1,46 @@
+button {
+    height: 3px;
+    width: 3px;
+    outline: none;
+}
+
+body {
+    margin : 5px;
+    width: 230px;
+}
+
+h1{
+    font-size : 15px;
+    text-align: center;
+}
+
+
+/* Class */ 
+
+
+.logo_div{
+    margin: 5;
+    height: 50px;
+    width: auto;
+    background-color: rgb(0, 255, 42);
+}
+
+
+.options_div {
+    padding: 10%;
+    background-color: yellow;
+}
+
+
+.today_data {
+    padding: 5%;
+    width: auto;
+    background-color: blue;
+
+}
+
+.yesterday_data{
+    padding: 5%;
+    width: auto;
+    background-color: red;
+}
