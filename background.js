@@ -240,64 +240,92 @@ const MEAN_WEBSITE_SCORE =  {
 	'bytes': 1701132
 }
 
-const details = {
-	'title': 'co2-monitor'
-}
-
-const details_bis = {
-	'path': 'new_icons/favicon.ico'
-}
-
-var img = new Image(src = 'new_icons/favicon.ico');
-
-chrome.browserAction.setTitle(details)
-chrome.browserAction.setIcon(details_bis)
+chrome.browserAction.setTitle({'title': 'co2-monitor'})
+chrome.browserAction.setIcon({'path': 'icons/co2_icon1.ico'})
 
 // Global variables 
 
-var CO2_REQUEST_SCORE = 0;
+var CO2_SCORE = 0;
+var current_icon = 'icon1'
 
 // Funtions
 
-function compute_badge(co2_score){
-	badge = {
-		text: (co2_score % 5).toString()
-	}
-	chrome.browserAction.setBadgeText(badge)
+function compute_badge(){
+	
+	icon_number = current_icon.substr(current_icon.length - 1);
+
+	chrome.browserAction.setBadgeText(badge = {
+		text: (icon_number).toString()
+	})
 }
 
 
-var compute_co2_request_score = function (details) {
+function compute_icon(co2_score){
+
+	grid_icon = {
+		'icon1': 1000,
+		'icon2': 10000,
+		'icon3': 100000,
+		'icon4': 1000000,
+		'icon5': 10000000,
+		'icon6': 100000000,
+		'icon7': 1000000000,
+		'icon8': 10000000000
+	}
+
+
+	if (co2_score > grid_icon[current_icon]){
+
+		let new_icon = 'undefined';
+		let keys_grid = Object.keys(grid_icon);
+		let i=0;
+		while (new_icon === 'undefined'){
+			if (co2_score < grid_icon[keys_grid[i]]){
+				new_icon = keys_grid[i]
+			}
+			i = i+1
+		}
+
+		current_icon = new_icon 
+
+		chrome.browserAction.setIcon({'path': 'icons/co2_' + current_icon + '.ico' })
+
+	}
+
+}
+
+
+var update_co2_score = function (details) {
 
 	website_name = details["initiator"]
-
 	website_keys = Object.keys(WEBSITE_SCORES)
-	console.log(website_name)
 
-	for(key in website_keys){
-		if (website_name.includes(website_keys[key]))
-			website_name = website_keys[key]
-	}
+	if (website_name){
 
-	if (website_name in WEBSITE_SCORES) {
-		website_score = WEBSITE_SCORES[website_name]
-	}
-	else {
-		website_score = MEAN_WEBSITE_SCORE
-	}
-
-	var content_length = 1; // in case there is no content-length in the reponse header
-	for (i in details["responseHeaders"]) {
-		if (details["responseHeaders"][i]["name"] === "content-length") {
-			content_length = details["responseHeaders"][i]["value"]
+		for(key in website_keys){
+			if (website_name.includes(website_keys[key]))
+				website_name = website_keys[key]
 		}
-	}
-
-	CO2_REQUEST_SCORE = CO2_REQUEST_SCORE + (content_length * website_score['co2']) / website_score['bytes']
 	
-	compute_badge(CO2_REQUEST_SCORE)
-	console.log(CO2_REQUEST_SCORE)
-
+		if (website_name in WEBSITE_SCORES) {
+			website_score = WEBSITE_SCORES[website_name]
+		}
+		else {
+			website_score = MEAN_WEBSITE_SCORE
+		}
+	
+		var content_length = 1; // in case there is no content-length in the reponse header
+		for (i in details["responseHeaders"]) {
+			if (details["responseHeaders"][i]["name"] === "content-length") {
+				content_length = details["responseHeaders"][i]["value"]
+			}
+		}
+	
+		CO2_SCORE = CO2_SCORE + (content_length * website_score['co2']) / website_score['bytes']
+		
+		compute_icon(CO2_SCORE)
+		//compute_badge()		
+	}
 };
 
 
@@ -305,6 +333,6 @@ var compute_co2_request_score = function (details) {
 
 // Each time a new header is received or sent, we need to update the data transfert code.  
 chrome.webRequest.onHeadersReceived.addListener(
-	compute_co2_request_score, { urls: ["<all_urls>"] }, ["responseHeaders"]);
+	update_co2_score, { urls: ["<all_urls>"] }, ["responseHeaders"]);
 
 

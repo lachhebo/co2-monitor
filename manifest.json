@@ -1,7 +1,7 @@
 {
 	"name":"Co2 Monitor",
-	"version":"0.0.2",
-	"description":"monitor how much Co2 your internet consumption has produced",
+	"version":"0.0.5",
+	"description":"monitor how much CO2 your internet consumption has produced",
 	"permissions": [
 		"browsingData",  
 		"webNavigation",
@@ -14,17 +14,17 @@
 		"persistents": false
 	},
 	"icons": {
-		"16": "images/co2_16.png",
-		"32": "images/co2_32.png",
-		"48": "images/co2_48.png",
-		"128": "images/co2_128.png"
+		"16": "images/16.png",
+		"32": "images/32.png",
+		"48": "images/48.png",
+		"128": "images/128.png"
 	},
 	"browser_action": {
 		"default_icon": {                    
-		  "16": "images/co2_16.png",           // optional
-		  "32": "images/co2_32.png"            // optional
+		  "16": "images/16.png",           // optional
+		  "32": "images/32.png"            // optional
 		},
-		"default_title": "Co2-monitor",      // optional; shown in tooltip
+		"default_title": "CO2-monitor",      // optional; shown in tooltip
 		"default_popup": "popup.html"        // optional
 	},
 	"options_ui": {
