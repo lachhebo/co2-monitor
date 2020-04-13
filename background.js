@@ -234,61 +234,60 @@ const WEBSITE_SCORES = {
 }
 
 
-const MEAN_WEBSITE_SCORE =  {
+const MEAN_WEBSITE_SCORE = {
 	'co2': 1.36, 
-	'energy':0.0028596660323476175,
+	'energy': 0.0028596660323476175,
 	'bytes': 1701132
 }
 
-chrome.browserAction.setTitle({'title': 'co2-monitor'})
-chrome.browserAction.setIcon({'path': 'icons/co2_icon1.ico'})
+chrome.browserAction.setTitle({ 'title': 'co2-monitor' })
+chrome.browserAction.setIcon({ 'path': 'resources/browser_action_icons/co2_icon1.ico' })
 
 // Global variables 
 
-var CO2_SCORE = 0;
+var CO2_SCORE;
+var last_co2_score_saved = 0;
 var current_icon = 'icon1'
 
 // Funtions
 
-function compute_badge(){
-	
+function compute_badge() {
 	icon_number = current_icon.substr(current_icon.length - 1);
-
 	chrome.browserAction.setBadgeText(badge = {
 		text: (icon_number).toString()
 	})
 }
 
 
-function compute_icon(co2_score){
+function compute_icon(co2_score) {
 
 	grid_icon = {
-		'icon1': 1000,
-		'icon2': 10000,
-		'icon3': 100000,
-		'icon4': 1000000,
-		'icon5': 10000000,
-		'icon6': 100000000,
-		'icon7': 1000000000,
-		'icon8': 10000000000
+		'icon1': 70,
+		'icon2': 140,
+		'icon3': 210,
+		'icon4': 300,
+		'icon5': 400,
+		'icon6': 700,
+		'icon7': 900,
+		'icon8': 1100
 	}
 
 
-	if (co2_score > grid_icon[current_icon]){
+	if (co2_score > grid_icon[current_icon]) {
 
 		let new_icon = 'undefined';
 		let keys_grid = Object.keys(grid_icon);
-		let i=0;
-		while (new_icon === 'undefined'){
-			if (co2_score < grid_icon[keys_grid[i]]){
+		let i = 0;
+		while (new_icon === 'undefined') {
+			if (co2_score < grid_icon[keys_grid[i]]) {
 				new_icon = keys_grid[i]
 			}
-			i = i+1
+			i = i + 1
 		}
 
 		current_icon = new_icon 
 
-		chrome.browserAction.setIcon({'path': 'icons/co2_' + current_icon + '.ico' })
+		chrome.browserAction.setIcon({ 'path': 'resources/browser_action_icons/co2_' + current_icon + '.ico' })
 
 	}
 
