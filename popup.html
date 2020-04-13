@@ -2,32 +2,18 @@
 <html>
   <head>
     <link rel="stylesheet" href="stylesheet.css" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="node_modules/chart.js/dist/Chart.js"></script>
   </head>
-  <script src="popup.js"></script>
   <body>
-
-
-    <div>
-
-      <div class="logo_div">
-        <h1 class = "title_popup">Co2 Monitor</h1>
-      </div>
-
-      <div class="today_data">
-        <p>Co2 score : 7.9</p>
-        <p>Co2 emission rough estimation : 100kg </p>
-      </div>
-
-      <div class="yesterday_data">
-        <p>Co2 score : 4.4</p>
-        <p>Co2 emission rough estimation : 130kg </p>
-      </div>
-
-      <div class="options_div">
-        <p class = "label_options">Here are the options</p>
-        <button id="go-to-options">Go to options</button>
-      </div>
-
-  </div>
+    <div class="popup_name"> <h1> <b>CO2 Monitor</b></h1> </div>
+    <div id="co2_score"> <p><b></b> produced </p></div>
+    <div id="equivalent_to"> </div>
+    <canvas id="evolution_co2_emission_graph" width="400" height="400"></canvas>
+    <div class="links"> 
+      <span class="donation"> <a href="https://www.paypal.me/lachhebo">Donation</a>  </span>
+      <span class="website"> <a href="https://lachhebo.github.io">Website</a> </span> 
+    </div>
   </body>
+  <script src="popup.js"></script>
 </html>

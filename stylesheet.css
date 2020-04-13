@@ -5,42 +5,58 @@ button {
 }
 
 body {
-    margin : 5px;
     width: 230px;
+    background-color: rgba(122, 159, 173, 0.664);
 }
 
 h1{
-    font-size : 15px;
+    font-size : 18px;
     text-align: center;
 }
-
 
 /* Class */ 
 
 
-.logo_div{
-    margin: 5;
-    height: 50px;
-    width: auto;
-    background-color: rgb(0, 255, 42);
+.popup_name{
+    text-align: center;
+    font-size : 20px;
+}
+
+#co2_score{
+    text-align: center;
+    font-size: 12px;
+}
+
+#equivalent_to{
+    text-align: center;
+}
+
+.links{
+    text-align: center;
+}
+
+.donation{
+    text-align: start;
+}
+
+.website{
+    text-align: end;
 }
 
 
+
 .options_div {
-    padding: 10%;
     background-color: yellow;
 }
 
 
 .today_data {
-    padding: 5%;
     width: auto;
     background-color: blue;
 
 }
 
 .yesterday_data{
-    padding: 5%;
     width: auto;
     background-color: red;
 }
