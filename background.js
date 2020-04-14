@@ -410,6 +410,7 @@ chrome.runtime.onStartup.addListener(function (){
 		if (day != data.last_date) {
 			CO2_SCORE = 0
 			chrome.storage.sync.set({ last_date: day })
+			compute_icon(CO2_SCORE)
 		}
 		else {
 			if (day == 0){
