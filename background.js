@@ -1,6 +1,11 @@
 // Global Constants 
 
 const WEBSITE_SCORES = {
+	'github.com':{
+		'co2': 1.57795650547,
+		'energy':0.0033220136957243084,
+		'bytes': 1976169
+	},
 	'youtube.com': {
 		'co2': 2.65526655104,
 		'energy': 0.006168056824244559,
