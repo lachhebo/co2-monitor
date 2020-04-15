@@ -3,11 +3,8 @@
 	"version": "1.0",
 	"description": "monitor how much CO2 your internet consumption has produced",
 	"permissions": [
-		"browsingData",
-		"webNavigation",
 		"webRequest",
 		"storage",
-		"history",
 		"<all_urls>"],
 	"background":{
 		"scripts": ["background.js"],
