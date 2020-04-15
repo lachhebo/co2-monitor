@@ -2,7 +2,7 @@
 a chrome extension to monitor how much co2 was generated during your navigation on the web.
 
 ## how co2 emissions are assessed ?
-As many parameters need to be taken into account in the co2 emission equation, it is almost impossible to know exactly how much co2 has been produced by your daily internet usage; although, some of them are :
+As many parameters need to be taken into account in the co2 emission equation, it is almost impossible to know exactly how much co2 has been produced by your daily internet usage; although, some of them are the following :
 
 - your computer energy consumption.
 - the carbon intensity of the electricity you're using.
@@ -19,7 +19,7 @@ As I discovered the API of wholegrain, I used it on around 50 most visited websi
 - the size of the bytes transferred between my computer and the website.
 - the energy used to load the page.
 
-When you're visiting one of the given website, the extension is using the data which are passing through the wire and the known co2 emissions for a certain data byte size to obtain a rough co2 emissions estimation. 
+When you're visiting one of the given website, the extension is using the data which are passing through chrome and the known co2 emissions for a certain data byte size to obtain a rough co2 emissions estimation. 
 When you're navigating on unknown website, the extension is using the average result.
 
 I averaged the numbers obtained with the 50 websites. Hence, when you are visiting unknown website, the extension is using the average numbers to compute the co2-emissions.
