@@ -5,7 +5,7 @@ button {
 }
 
 body {
-    width: 230px;
+    width: 250px;
     background-color: rgba(122, 159, 173, 0.664);
 }
 
@@ -22,13 +22,17 @@ h1{
     font-size : 20px;
 }
 
-#co2_score{
+.score_front{
     text-align: center;
     font-size: 12px;
+    margin-left: auto;
+    margin-right: auto ;
 }
 
 #equivalent_to{
     text-align: center;
+    margin-left: auto;
+    margin-right: auto ;
 }
 
 .links{

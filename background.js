@@ -343,12 +343,12 @@ function get_co2_score() {
 	return CO2_SCORE
 }
 
-
 var update_co2_score = function (details) {
 
 	website_keys = Object.keys(WEBSITE_SCORES)
+	co2_website = 0; 
 
-	if ('initiator' in details) {
+	if ('initiator' in details) { // chrome
 
 		website_name = details["initiator"]
 
@@ -372,12 +372,40 @@ var update_co2_score = function (details) {
 		}
 
 		co2_score = get_co2_score()
-
-		CO2_SCORE = co2_score + (content_length * website_score['co2']) / website_score['bytes']
-
-		compute_icon(CO2_SCORE)
+		co2_website = (content_length * website_score['co2']) / website_score['bytes']	
 
 	}
+	else{ //firefox
+
+		website_name = details["url"]
+
+		for (key in website_keys) {
+			if (website_name.includes(website_keys[key]))
+				website_name = website_keys[key]
+		}
+
+		if (website_name in WEBSITE_SCORES) {
+			website_score = WEBSITE_SCORES[website_name]
+		}
+		else {
+			website_score = MEAN_WEBSITE_SCORE
+		}
+
+		var content_length = 1; // in case there is no content-length in the reponse header
+		for (i in details["responseHeaders"]) {
+			if (details["responseHeaders"][i]["name"] === "content-length") {
+				content_length = details["responseHeaders"][i]["value"]
+			}
+		}
+
+		co2_score = get_co2_score()
+		co2_website = (content_length * website_score['co2']) / website_score['bytes']	
+
+	}
+
+	co2_score = get_co2_score()
+	CO2_SCORE = co2_score + co2_website;
+	compute_icon(CO2_SCORE)
 };
 
 
