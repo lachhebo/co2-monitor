@@ -263,7 +263,6 @@ function compute_badge() {
 	})
 }
 
-
 function compute_icon(co2_score) {
 
 	grid_icon = {
@@ -298,7 +297,6 @@ function compute_icon(co2_score) {
 
 }
 
-
 function save_co2_score(co2_score) {
 
 	var day = new Date();
@@ -329,8 +327,6 @@ function save_co2_score(co2_score) {
 		chrome.storage.sync.set({ score6: co2_score })
 	}
 }
-
-
 
 function get_co2_score() {
 	chrome.storage.sync.get(['last_date'], function (data) {
