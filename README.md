@@ -28,9 +28,3 @@ I averaged the numbers obtained with the 50 websites. Hence, when you are visiti
 Wholegrain API is used to obtain a rough estimation of the carbon intensity of a list of some most visited websites :
 
 - [Wholegrain Carbon API](https://www.websitecarbon.com/)
-
-
-### support/donation
-
-
-[<img height="30" src="https://raw.githubusercontent.com/lachhebo/GabTag/screenshots/donate.png" alt="PayPal"/>](https://www.paypal.me/lachhebo)
