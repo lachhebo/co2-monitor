@@ -1,5 +1,5 @@
 # co2-monitor
-a chrome extension to monitor how much co2 was generated during your navigation on the web.
+a chrome extension to monitor how much co2 was generated during your navigation on the web, it is available on [chrome](https://chrome.google.com/webstore/detail/co2-monitor/jgdbmmijpagachmmmlmacgkbdglfcamj?hl) and [firefox](https://addons.mozilla.org/fr/firefox/addon/co2-monitor/?src=search)
 
 ## how co2 emissions are assessed ?
 As many parameters need to be taken into account in the co2 emission equation, it is almost impossible to know exactly how much co2 has been produced by your daily internet usage; although, some of them are the following :
