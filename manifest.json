@@ -1,6 +1,6 @@
 {
 	"name": "Co2 Monitor",
-	"version": "1.0",
+	"version": "1.1",
 	"description": "monitor how much CO2 your internet consumption has produced",
 	"permissions": [
 		"webRequest",
