@@ -253,6 +253,7 @@ chrome.browserAction.setIcon({ 'path': 'resources/browser_action_icons/co2_icon1
 var CO2_SCORE;
 var last_co2_score_saved = 0;
 var current_icon = 'icon1'
+var global_date =  new Date();
 
 // Funtions
 
@@ -288,6 +289,12 @@ function compute_icon(co2_score) {
 				new_icon = keys_grid[i]
 			}
 			i = i + 1
+		}
+		var date = Date().toDateString();
+		var date_global_str = global_date.toDateString()
+		if (date != date_global_str){
+			new_icon = keys_grid[0]
+			global_date = Date();
 		}
 
 		current_icon = new_icon
@@ -383,7 +390,7 @@ var update_co2_score = function (details) {
 
 (function save_co2_score_loop() {
 	setTimeout(function () {
-		save_co2_score(CO2_SCORE)  //  your code here   
+		save_co2_score(CO2_SCORE)
 		save_co2_score_loop();
 	}, 10000)
 })();
