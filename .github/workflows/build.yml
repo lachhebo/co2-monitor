@@ -1,0 +1,69 @@
+name: Build Extension
+
+on:
+  push:
+    branches: [ master, feature/** ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Create build directory
+      run: mkdir -p build
+
+    - name: Copy extension files
+      run: |
+        cp -r resources build/
+        cp background.js build/
+        cp manifest.json build/
+        cp popup.html build/
+        cp popup.js build/
+        cp stylesheet.css build/
+
+    - name: Create zip file
+      run: |
+        cd build
+        zip -r ../co2-monitor.zip .
+        cd ..
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: co2-monitor-extension
+        path: co2-monitor.zip
+        retention-days: 30
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    
+    steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: co2-monitor-extension
+
+    - name: Deploy to Chrome Web Store
+      uses: trmcnvn/chrome-webstore-upload@v3
+      with:
+        extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
+        client-id: ${{ secrets.CHROME_CLIENT_ID }}
+        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        file-path: co2-monitor.zip
+        publish: true
