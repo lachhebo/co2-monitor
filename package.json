@@ -1,0 +1,26 @@
+{
+  "name": "co2-monitor",
+  "version": "1.2.0",
+  "description": "A Chrome and Firefox extension that tracks your CO2 emissions when browsing websites",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chrome-extension",
+    "firefox-extension",
+    "co2",
+    "carbon",
+    "monitoring",
+    "sustainability"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^4.4.1",
+    "color-convert": "^2.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}

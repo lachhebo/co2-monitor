@@ -22,25 +22,25 @@ chrome.storage.sync.get(['score0', 'score1', 'score2', 'score3', 'score4', 'scor
 
 function get_today_score(day, data) {
     if (day == 0) {
-        return Number(data.score0.toPrecision(2))
+        return Number(data.score0?.toPrecision(2) || 0)
     }
     else if (day == 1) {
-        return Number(data.score1.toPrecision(2))
+        return Number(data.score1?.toPrecision(2) || 0)
     }
     else if (day == 2) {
-        return Number(data.score2.toPrecision(2))
+        return Number(data.score2?.toPrecision(2) || 0)
     }
     else if (day == 3) {
-        return Number(data.score3.toPrecision(2))
+        return Number(data.score3?.toPrecision(2) || 0)
     }
     else if (day == 4) {
-        return Number(data.score4.toPrecision(2))
+        return Number(data.score4?.toPrecision(2) || 0)
     }
     else if (day == 5) {
-        return Number(data.score5.toPrecision(2))
+        return Number(data.score5?.toPrecision(2) || 0)
     }
     else if (day == 6) {
-        return Number(data.score6.toPrecision(2))
+        return Number(data.score6?.toPrecision(2) || 0)
     }
     else {
         console.log("WARNING data score not found")
@@ -107,13 +107,13 @@ function adverstisment_message(icone, message) {
 function update_graph(day, data) {
 
     plotted_data = [
-        Number(data.score0.toPrecision(2)),
-        Number(data.score1.toPrecision(2)),
-        Number(data.score2.toPrecision(2)),
-        Number(data.score3.toPrecision(2)),
-        Number(data.score4.toPrecision(2)),
-        Number(data.score5.toPrecision(2)),
-        Number(data.score6.toPrecision(2))
+        Number(data.score0?.toPrecision(2) || 0),
+        Number(data.score1?.toPrecision(2) || 0),
+        Number(data.score2?.toPrecision(2) || 0),
+        Number(data.score3?.toPrecision(2) || 0),
+        Number(data.score4?.toPrecision(2) || 0),
+        Number(data.score5?.toPrecision(2) || 0),
+        Number(data.score6?.toPrecision(2) || 0)
         
     ];
 
@@ -141,11 +141,9 @@ function update_graph(day, data) {
         },
         options: {
             scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
+                y: {
+                    beginAtZero: true
+                }
             }
         }
     });
@@ -164,24 +162,24 @@ chrome.storage.onChanged.addListener(function update_co2_on_ui(changes, areaName
 
 function get_today_score_changes(changes, day){
     if (day == 0) {
-        return Number(changes.score0.newValue.toPrecision(2))
+        return Number(changes.score0?.newValue?.toPrecision(2) || 0)
     }
     else if (day == 1) {
-        return Number(changes.score1.newValue.toPrecision(2))
+        return Number(changes.score1?.newValue?.toPrecision(2) || 0)
     }
     else if (day == 2) {
-        return Number(changes.score2.newValue.toPrecision(2))
+        return Number(changes.score2?.newValue?.toPrecision(2) || 0)
     }
     else if (day == 3) {
-        return Number(changes.score3.newValue.toPrecision(2))
+        return Number(changes.score3?.newValue?.toPrecision(2) || 0)
     }
     else if (day == 4) {
-        return Number(changes.score4.newValue.toPrecision(2))
+        return Number(changes.score4?.newValue?.toPrecision(2) || 0)
     }
     else if (day == 5) {
-        return Number(changes.score5.newValue.toPrecision(2))
+        return Number(changes.score5?.newValue?.toPrecision(2) || 0)
     }
     else if (day == 6) {
-        return Number(changes.score6.newValue.toPrecision(2))
+        return Number(changes.score6?.newValue?.toPrecision(2) || 0)
     }
 }

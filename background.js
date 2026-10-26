@@ -245,28 +245,21 @@ const MEAN_WEBSITE_SCORE = {
 	'bytes': 1701132
 }
 
-chrome.browserAction.setTitle({ 'title': 'co2-monitor' })
-chrome.browserAction.setIcon({ 'path': 'resources/browser_action_icons/co2_icon1.ico' })
-
 // Global variables 
 
-var CO2_SCORE;
+var CO2_SCORE = 0;
 var last_co2_score_saved = 0;
 var current_icon = 'icon1'
 
-// Funtions
-
+// Update badge text
 function compute_badge() {
-	icon_number = current_icon.substr(current_icon.length - 1);
-	chrome.browserAction.setBadgeText(badge = {
-		text: (icon_number).toString()
-	})
+	let icon_number = current_icon.substr(current_icon.length - 1);
+	chrome.action.setBadgeText({ text: icon_number.toString() });
 }
 
-
+// Update icon based on CO2 score
 function compute_icon(co2_score) {
-
-	grid_icon = {
+	const grid_icon = {
 		'icon1': 70,
 		'icon2': 140,
 		'icon3': 210,
@@ -275,185 +268,115 @@ function compute_icon(co2_score) {
 		'icon6': 700,
 		'icon7': 900,
 		'icon8': 1100
-	}
-
+	};
 
 	if (co2_score > grid_icon[current_icon]) {
-
 		let new_icon = 'undefined';
-		let keys_grid = Object.keys(grid_icon);
+		const keys_grid = Object.keys(grid_icon);
 		let i = 0;
-		while (new_icon === 'undefined') {
+		while (new_icon === 'undefined' && i < keys_grid.length) {
 			if (co2_score < grid_icon[keys_grid[i]]) {
-				new_icon = keys_grid[i]
+				new_icon = keys_grid[i];
 			}
-			i = i + 1
+			i = i + 1;
 		}
 
-		current_icon = new_icon
-
-		chrome.browserAction.setIcon({ 'path': 'resources/browser_action_icons/co2_' + current_icon + '.ico' })
-
+		if (new_icon !== 'undefined') {
+			current_icon = new_icon;
+			chrome.action.setIcon({ path: 'resources/browser_action_icons/co2_' + current_icon + '.ico' });
+		}
 	}
-
 }
 
-
+// Save CO2 score to storage
 function save_co2_score(co2_score) {
+	const day = new Date();
+	const date = day.getDay();
 
-	var day = new Date();
-	var date = day.getDay()
+	chrome.storage.sync.set({ last_day: date });
 
-	chrome.storage.sync.set({ last_day: date })
-
-	if (date == 0) {
-		chrome.storage.sync.set({ score0: co2_score })
-	}
-	else if (date == 1) {
-		chrome.storage.sync.set({ score1: co2_score }, function () {
-		});
-	}
-	else if (date == 2) {
-		chrome.storage.sync.set({ score2: co2_score })
-	}
-	else if (date == 3) {
-		chrome.storage.sync.set({ score3: co2_score })
-	}
-	else if (date == 4) {
-		chrome.storage.sync.set({ score4: co2_score })
-	}
-	else if (date == 5) {
-		chrome.storage.sync.set({ score5: co2_score })
-	}
-	else if (date == 6) {
-		chrome.storage.sync.set({ score6: co2_score })
-	}
+	const scoreKey = 'score' + date;
+	chrome.storage.sync.set({ [scoreKey]: co2_score });
 }
 
-
-
+// Get CO2 score from storage
 function get_co2_score() {
-	chrome.storage.sync.get(['last_date'], function (data) {
-		let day = new Date().getDay();
-		if (day != data.last_date) {
-			CO2_SCORE = 0
-			chrome.storage.sync.set({ last_date: day })
-		}
-	});
-	return CO2_SCORE
+	return CO2_SCORE;
 }
 
-
+// Update CO2 score based on web request
 var update_co2_score = function (details) {
-
-	website_keys = Object.keys(WEBSITE_SCORES)
+	const website_keys = Object.keys(WEBSITE_SCORES);
 
 	if ('initiator' in details) {
+		let website_name = details.initiator;
 
-		website_name = details["initiator"]
-
-		for (key in website_keys) {
-			if (website_name.includes(website_keys[key]))
-				website_name = website_keys[key]
-		}
-
-		if (website_name in WEBSITE_SCORES) {
-			website_score = WEBSITE_SCORES[website_name]
-		}
-		else {
-			website_score = MEAN_WEBSITE_SCORE
-		}
-
-		var content_length = 1; // in case there is no content-length in the reponse header
-		for (i in details["responseHeaders"]) {
-			if (details["responseHeaders"][i]["name"] === "content-length") {
-				content_length = details["responseHeaders"][i]["value"]
+		for (const key in website_keys) {
+			if (website_name.includes(website_keys[key])) {
+				website_name = website_keys[key];
+				break;
 			}
 		}
 
-		co2_score = get_co2_score()
+		let website_score = WEBSITE_SCORES[website_name] || MEAN_WEBSITE_SCORE;
 
-		CO2_SCORE = co2_score + (content_length * website_score['co2']) / website_score['bytes']
+		let content_length = 1;
+		if (details.responseHeaders) {
+			for (let i = 0; i < details.responseHeaders.length; i++) {
+				if (details.responseHeaders[i].name.toLowerCase() === 'content-length') {
+					content_length = parseInt(details.responseHeaders[i].value) || 1;
+					break;
+				}
+			}
+		}
 
-		compute_icon(CO2_SCORE)
+		const current_score = get_co2_score();
+		CO2_SCORE = current_score + (content_length * website_score.co2) / website_score.bytes;
 
+		compute_icon(CO2_SCORE);
+		compute_badge();
 	}
 };
 
-
+// Save CO2 score periodically
 (function save_co2_score_loop() {
 	setTimeout(function () {
-		save_co2_score(CO2_SCORE)  //  your code here   
+		save_co2_score(CO2_SCORE);
 		save_co2_score_loop();
-	}, 10000)
+	}, 10000);
 })();
 
-
-// Callbacks
-
-// Each time a new header is received or sent, we need to update the data transfert code.  
+// Listen for web requests
 chrome.webRequest.onHeadersReceived.addListener(
-	update_co2_score, { urls: ["<all_urls>"] }, ["responseHeaders"]);
+	update_co2_score, 
+	{ urls: ["<all_urls>"] }, 
+	["responseHeaders"]
+);
 
-
-
+// Initialize on install
 chrome.runtime.onInstalled.addListener(function () {
 	chrome.storage.sync.set({ last_date: -1 });
-	chrome.storage.sync.set({ score0: 0 });
-	chrome.storage.sync.set({ score1: 0 });
-	chrome.storage.sync.set({ score2: 0 });
-	chrome.storage.sync.set({ score3: 0 });
-	chrome.storage.sync.set({ score4: 0 });
-	chrome.storage.sync.set({ score5: 0 });
-	chrome.storage.sync.set({ score6: 0 });
+	for (let i = 0; i < 7; i++) {
+		chrome.storage.sync.set({ ['score' + i]: 0 });
+	}
 });
 
-
+// Initialize on startup
 chrome.runtime.onStartup.addListener(function (){
+	const day = new Date().getDay();
+	
 	chrome.storage.sync.get(['last_date'], function (data) {
-		let day = new Date().getDay();
-		if (day != data.last_date) {
-			CO2_SCORE = 0
-			chrome.storage.sync.set({ last_date: day })
-			compute_icon(CO2_SCORE)
-		}
-		else {
-			if (day == 0){
-				chrome.storage.sync.get(['score0'], function (data){
-					CO2_SCORE = data.score0
-				});
-			}
-			else if (day == 1) {
-				chrome.storage.sync.get(['score1'], function (data){
-					CO2_SCORE = data.score1
-				});
-			}
-			else if (day == 2) {
-				chrome.storage.sync.get(['score2'], function (data){
-					CO2_SCORE = data.score2
-				});
-			}
-			else if (day == 3) {
-				chrome.storage.sync.get(['score3'], function (data){
-					CO2_SCORE = data.score3
-				});
-			}
-			else if (day == 4) {
-				chrome.storage.sync.get(['score4'], function (data){
-					CO2_SCORE = data.score4
-				});
-			}
-			else if (day == 5) {
-				chrome.storage.sync.get(['score5'], function (data){
-					CO2_SCORE = data.score5
-				});
-			}
-			else if (day == 6) {
-				chrome.storage.sync.get(['score6'], function (data){
-					CO2_SCORE = data.score6
-				});
-			}	
+		if (day !== data.last_date) {
+			CO2_SCORE = 0;
+			chrome.storage.sync.set({ last_date: day });
+			compute_icon(CO2_SCORE);
+			compute_badge();
+		} else {
+			chrome.storage.sync.get(['score' + day], function (scoreData) {
+				CO2_SCORE = scoreData['score' + day] || 0;
+				compute_icon(CO2_SCORE);
+				compute_badge();
+			});
 		}
 	});
-
-})
+});
